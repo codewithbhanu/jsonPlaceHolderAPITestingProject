@@ -1,0 +1,9 @@
+package org.jsonPlaceholder.JSONPlaceholderAPITesting;
+import io.restassured.RestAssured;
+
+public class SampleAPITesting {
+	
+	public void getPosts() {
+		RestAssured
+	}
+}

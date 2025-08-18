@@ -1,0 +1,6 @@
+package org.jsonPlaceholder.JSONPlaceholderAPITesting;
+
+public class geoData {
+	private String lat;
+	private String lng;
+}

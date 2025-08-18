@@ -1,0 +1,23 @@
+package org.jsonPlaceholder.JSONPlaceholderAPITesting;
+import io.restassured.RestAssured;
+import io.restassured.*;
+import static io.restassured.RestAssured.given;
+
+import org.testng.annotations.Test;
+
+
+public class SampleAPITesting {
+	
+	String url = "https://jsonplaceholder.typicode.com";
+	
+	@Test
+	public void getPosts() {
+		RestAssured.baseURI = "";
+		
+		String response = given()
+		.when().get("/posts")
+		.then().extract().body().asString();
+		
+		System.out.println(response);
+	}
+}

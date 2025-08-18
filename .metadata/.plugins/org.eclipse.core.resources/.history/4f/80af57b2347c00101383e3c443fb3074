@@ -1,0 +1,15 @@
+package org.jsonPlaceholder.JSONPlaceholderAPITesting;
+
+public class addressData {
+	private String street;
+	private String suite;
+	private String city;
+	private String zipcode;
+	
+	public static void main(String args) {
+		geoData data = new geoData();
+		data.getLat();
+		data.getLng();
+	}
+	
+}

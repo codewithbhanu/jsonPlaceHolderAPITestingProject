@@ -1,0 +1,15 @@
+package org.jsonPlaceholder.JSONPlaceholderAPITesting;
+import io.restassured.RestAssured;
+import io.restassured.*;
+import static io.restassured.RestAssured.given;
+
+import org.testng.annotations.Test;
+
+
+public class SampleAPITesting {
+	
+	@Test
+	public void getPosts() {
+		RestAssured.baseURI = "";
+	}
+}
