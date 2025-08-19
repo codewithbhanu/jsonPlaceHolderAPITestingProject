@@ -1,0 +1,62 @@
+package org.jsonPlaceholder.JSONPlaceholderAPITesting;
+
+import static io.restassured.RestAssured.given;
+
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import base.BaseClass;
+import io.restassured.RestAssured;
+import io.restassured.common.mapper.TypeRef;
+import io.restassured.response.Response;
+
+public class UsersAPI extends BaseClass {
+
+	List<Map<String, Object>> actualUsersData;
+
+	public Response getResponse(String endpoint) {
+		RestAssured.baseURI = url;
+		Response res = given().header("Accept-Language", "en").when().get(endpoint).then().extract().response();
+		return res;
+	}
+
+	@Test
+	public void getUsers() {
+		List<UsersData> jsonData = getResponse(usersEndpoint).as(new TypeRef<List<UsersData>>() {
+		});
+		actualUsersData = new ArrayList<>();
+
+		for (UsersData u : jsonData) {
+			Map<String, Object> object = new LinkedHashMap<>();
+			object.put("id", u.getId());
+			object.put("name", u.getName());
+			object.put("username", u.getUsername());
+			object.put("email", u.getEmail());
+			object.put("street", u.getAddress().getStreet());
+			object.put("city", u.getAddress().getCity());
+			object.put("zipcode", u.getAddress().getZipcode());
+			object.put("lat", u.getAddress().getGeo().getLat());
+			object.put("lng", u.getAddress().getGeo().getLng());
+			object.put("phone", u.getPhone());
+			object.put("website", u.getWebsite());
+			object.put("companyName", u.getCompany().getName());
+			object.put("catchPhrase", u.getCompany().getCatchPhrase());
+			object.put("companyBs", u.getCompany().getBs());
+			actualUsersData.add(object);
+		}
+	}
+	
+	@Test
+	public void validateUsersData() {
+		ObjectMapper mapper = new ObjectMapper();
+		
+		List<Map<String,Object>> expectedData = mapper.readValue(new File("src/test/resources/expectedUsers.json"), new TypeReference<List<Map<String,Object>>>() {});
+	}
+}

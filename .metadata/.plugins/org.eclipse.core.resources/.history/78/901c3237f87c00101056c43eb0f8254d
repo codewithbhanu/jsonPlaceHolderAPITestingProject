@@ -1,0 +1,79 @@
+package org.jsonPlaceholder.JSONPlaceholderAPITesting;
+
+import static io.restassured.RestAssured.given;
+
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import base.BaseClass;
+import io.restassured.RestAssured;
+import io.restassured.common.mapper.TypeRef;
+import io.restassured.response.Response;
+
+public class UsersAPI extends BaseClass {
+
+	List<Map<String, Object>> actualUsersData;
+
+	public Response getResponse(String endpoint) {
+		RestAssured.baseURI = url;
+		Response res = given().header("Accept-Language", "en").when().get(endpoint).then().extract().response();
+		return res;
+	}
+
+	@Test
+	public void getUsers() {
+		List<UsersData> jsonData = getResponse(usersEndpoint).as(new TypeRef<List<UsersData>>() {
+		});
+		actualUsersData = new ArrayList<>();
+
+		for (UsersData u : jsonData) {
+			Map<String, Object> object = new LinkedHashMap<>();
+			object.put("id", u.getId());
+			object.put("name", u.getName());
+			object.put("username", u.getUsername());
+			object.put("email", u.getEmail());
+			object.put("street", u.getAddress().getStreet());
+			object.put("city", u.getAddress().getCity());
+			object.put("zipcode", u.getAddress().getZipcode());
+			object.put("lat", u.getAddress().getGeo().getLat());
+			object.put("lng", u.getAddress().getGeo().getLng());
+			object.put("phone", u.getPhone());
+			object.put("website", u.getWebsite());
+			object.put("companyName", u.getCompany().getName());
+			object.put("companyBs", u.getCompany().getBs());
+			actualUsersData.add(object);
+		}
+	}
+	
+	@Test
+	public void validateUsersData() {
+		List<Map<String,Object>> expectedData = new ArrayList<>();
+		
+		Map<String,Object> user1 = new LinkedHashMap<>();
+		user1.put("id", 1);
+		user1.put("name", "Leanne Grahame");
+		user1.put("username", "Bret");
+		user1.put("email", "Sincere@april.biz");
+		user1.put("street", "Kulas Light");
+		user1.put("city", "Gwenborough");
+		user1.put("zipcode", "92998-3874");
+		user1.put("lat", "-37.3159");
+		user1.put("lng", "81.1496");
+		user1.put("phone", "1-770-736-8031 x56442");
+		user1.put("website", "hildegard.org");
+		user1.put("companyName", "Romaguera-Crona");
+		user1.put("companyBs", "harness real-time e-markets");
+		
+		expectedData.add(user1);
+		
+		for(int i=0; i < expectedData.size(); i++) {
+			Assert.assertEquals(actualUsersData.get(0).get("name"), expectedData.get(0).get("name"));
+		}
+		//Assert.assertEquals(actualUsersData, expectedData);
+	}
+}

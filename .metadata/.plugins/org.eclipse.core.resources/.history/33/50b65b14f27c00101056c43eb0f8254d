@@ -1,0 +1,22 @@
+package org.jsonPlaceholder.JSONPlaceholderAPITesting;
+
+import static io.restassured.RestAssured.given;
+
+import java.util.List;
+import java.util.Map;
+
+import io.restassured.RestAssured;
+import io.restassured.response.Response;
+
+public class UsersAPI {
+	String url = "https://jsonplaceholder.typicode.com";
+	String postsEndpoint = "/posts";
+	String usersEndpoint = "/users";
+	List<Map<String,Object>> usersData;
+	
+	public Response getResponse(String endpoint) {
+		RestAssured.baseURI = url;
+		Response res = given().header("Accept-Language", "en").when().get(endpoint).then().extract().response();
+		return res;
+	}
+}

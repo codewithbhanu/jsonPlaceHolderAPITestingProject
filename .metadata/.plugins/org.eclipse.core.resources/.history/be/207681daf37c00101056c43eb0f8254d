@@ -1,0 +1,18 @@
+package base;
+
+import static io.restassured.RestAssured.given;
+
+import io.restassured.RestAssured;
+import io.restassured.response.Response;
+
+public class BaseClass {
+	protected String url = "https://jsonplaceholder.typicode.com";
+	protected String postsEndpoint = "/posts";
+	protected String usersEndpoint = "/users";
+	
+	public Response getResponse(String endpoint) {
+		RestAssured.baseURI = url;
+		Response res = given().header("Accept-Language", "en").when().get(endpoint).then().extract().response();
+		return res;
+	}
+}

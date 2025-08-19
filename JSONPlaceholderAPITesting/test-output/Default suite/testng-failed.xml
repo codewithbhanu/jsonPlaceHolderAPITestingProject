@@ -3,11 +3,11 @@
 <suite name="Failed suite [Default suite]" guice-stage="DEVELOPMENT">
   <test thread-count="5" name="Default test(failed)">
     <classes>
-      <class name="org.jsonPlaceholder.JSONPlaceholderAPITesting.SampleAPITesting">
+      <class name="org.jsonPlaceholder.JSONPlaceholderAPITesting.UsersAPI">
         <methods>
-          <include name="validateResponseTime"/>
+          <include name="validateUsersData"/>
         </methods>
-      </class> <!-- org.jsonPlaceholder.JSONPlaceholderAPITesting.SampleAPITesting -->
+      </class> <!-- org.jsonPlaceholder.JSONPlaceholderAPITesting.UsersAPI -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->

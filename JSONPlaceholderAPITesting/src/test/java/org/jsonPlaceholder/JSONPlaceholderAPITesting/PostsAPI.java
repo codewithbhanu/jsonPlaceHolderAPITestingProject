@@ -1,0 +1,50 @@
+package org.jsonPlaceholder.JSONPlaceholderAPITesting;
+
+import io.restassured.RestAssured;
+import io.restassured.common.mapper.TypeRef;
+import io.restassured.response.Response;
+import static io.restassured.RestAssured.given;
+
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.testng.annotations.Test;
+
+import base.BaseClass;
+
+public class PostsAPI extends BaseClass {
+
+	List<Map<String, Object>> postsData;
+
+	public Response getResponse(String endpoint) {
+		RestAssured.baseURI = url;
+		Response res = given().header("Accept-Language", "en").when().get(endpoint).then().extract().response();
+		return res;
+	}
+
+	@Test
+	public void getPosts() {
+
+		List<PostsData> jsonData = getResponse(postsEndpoint).as(new TypeRef<List<PostsData>>() {
+		});
+		postsData = new ArrayList<>();
+
+		for (PostsData d : jsonData) {
+			Map<String, Object> object = new LinkedHashMap<>();
+			object.put("userId", d.getUserId());
+			object.put("id", d.getId());
+			object.put("title", d.getTitle());
+			object.put("body", d.getBody());
+			postsData.add(object);
+		}
+		System.out.println(postsData.get(3));
+	}
+
+	@Test
+	public void validateResponseStatusCode() {
+		getResponse(postsEndpoint).then().assertThat().statusCode(200);
+	}
+
+}

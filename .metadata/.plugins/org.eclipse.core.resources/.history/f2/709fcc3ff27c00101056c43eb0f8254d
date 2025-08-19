@@ -1,0 +1,7 @@
+package base;
+
+public class BaseClass {
+	protected String url = "https://jsonplaceholder.typicode.com";
+	String postsEndpoint = "/posts";
+	String usersEndpoint = "/users";
+}
